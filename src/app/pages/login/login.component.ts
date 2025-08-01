@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,6 +14,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
+  standalone: true,     // ? Es para usar este componente como un módulo independiente
   imports: [
     MatInputModule,
     RouterLink,
@@ -24,6 +25,21 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
 
+
+
+export class LoginComponent implements OnInit {
+
+  // *
+  hide = true;
+  form!: FormGroup;
+  fb = inject(FormBuilder);
+
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
+  }
 }
