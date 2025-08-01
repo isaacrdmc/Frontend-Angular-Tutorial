@@ -5,7 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 
 // ? Definimos las rutas de la aplicación
 export const routes: Routes = [
-  { path:'login', component:LoginComponent },
-  { path:'home', component:HomeComponent }
+  { path:'', component:HomeComponent },
+  { path:'login', component:LoginComponent }
 
 ];
