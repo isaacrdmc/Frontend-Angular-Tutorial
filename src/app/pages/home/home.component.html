@@ -1,19 +1,31 @@
 <div class="flex items-center flex-col pt-56 h-screen">
   <div class="h-screen">
-    <h1 class="text-4xl text-center font-bold my-10">Bienbenido a
-
+    <h1 class="text-4xl text-center font-bold my-10">Bienvenido a
       <span class="text-5xl text-green-800">Mi primera web tutorial de 4r</span>
-
       <p>( ͡° ͜ʖ ͡°)</p>
     </h1>
 
+
+    <!-- ? Creamos el conedicional para verificar que si estas autenticado: -->
+    <div class="flex flex-col items-center gap-5 justify-center">
+      <!-- * Si esta autenticado mostramos esto: -->
+      @if (AuthService.getUserDetail()) {
+        <h1 class="text-2xl">
+          Estas logeado como <samp class="font-bold bg-blue-600 rounded-md p-2 text-white">
+            {{AuthService.getUserDetail()?.fullName}}
+          </samp>
+        </h1>
+
+      }@else {
+        <!-- * Caso contrario mostramos esto otro: -->
         <h1 class="text-2xl">No estas logeado dentro de esta App </h1>
         <a routerLink="/login">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
             Login
           </button>
         </a>
-
+      }
     </div>
-
   </div>
+
+</div>

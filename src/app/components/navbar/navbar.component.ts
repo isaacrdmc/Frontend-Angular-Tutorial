@@ -28,18 +28,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 // ?
 export class NavbarComponent {
 
-  // ?
+  // ? Inyectamos los servicios necesarios para el compomente de la navBar
   authService = inject(AuthService);
   matSnackBar = inject(MatSnackBar);
   router = inject(Router);
 
-  // *
+  // *Comprobamos si el usuario esta logueado
   isLoggedIn() {
     return this.authService.isLoggedIn();
   }
 
 
-  // ?
+  // ? Metodo para cerrar la sesión
   logout = () => {
     this.authService.logout();
     this.matSnackBar.open('Sesión cerrada', 'Cerrar', {

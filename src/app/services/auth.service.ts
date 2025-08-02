@@ -13,7 +13,8 @@ import { jwtDecode } from 'jwt-decode';
 })
 
 
-// ?
+// ? Servicio de autenticación que maneja el inicio de sesión, verificación de token y detalles del usuario
+// ^ Lo vamos a estar utilizando en los compomentes que requieran de autenticación
 export class AuthService {
 
   // *Definimos la URL de la API y la clave del token el cual se guardara en 'localStorage'
