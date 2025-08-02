@@ -7,6 +7,10 @@ import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 // import { Router } from 'express';
 import { Router } from '@angular/router';
+import { RoleService } from '../../services/role.service';
+import { Observable } from 'rxjs';
+import { Role } from '../../interfaces/role';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +22,7 @@ import { Router } from '@angular/router';
     RouterLink,
     MatSelectModule,
     MatIconModule,
+    AsyncPipe
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -32,6 +37,10 @@ export class RegisterComponent implements OnInit{
   router = inject(Router);
   confirmPasswordHide: boolean = true;
   passwordHide: boolean = true;
+
+  roleService=inject(RoleService);
+  roles$!:Observable<Role[]>;
+
 
 
   // ^ Creamos el
@@ -50,6 +59,10 @@ export class RegisterComponent implements OnInit{
       roles: [],
       confirmPassword: ['', [Validators.required]],
     })
+
+    // ?
+    this.roles$ = this.roleService.getRoles();
+
   }
 
 
