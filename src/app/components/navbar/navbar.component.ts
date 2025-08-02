@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-// import { Router, RouterLink } from '@angular/router';
-// import { MatMenuModule } from '@angular/material/menu';
-// import { CommonModule } from '@angular/common';
-// import { AuthService } from '../../services/auth.service';
+import { Router, RouterLink } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -14,9 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    // MatMenuModule,
-    // CommonModule,
-    // RouterLink,
+    MatMenuModule,
+    CommonModule,
+    RouterLink,
     // MatSnackBarModule,
   ],
   templateUrl: './navbar.component.html',
@@ -27,9 +28,26 @@ import { MatIconModule } from '@angular/material/icon';
 // ?
 export class NavbarComponent {
 
-  // // ?
-  // autService = inject(Sut)
+  // ?
+  authService = inject(AuthService);
+  matSnackBar = inject(MatSnackBar);
+  router = inject(Router);
 
+  // *
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
+
+  // ?
+  logout = () => {
+    this.authService.logout();
+    this.matSnackBar.open('Sesión cerrada', 'Cerrar', {
+      duration: 5000,
+      horizontalPosition: 'center',
+    });
+    this.router.navigate(['/login']);
+  }
 
 
 }
