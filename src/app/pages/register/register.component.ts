@@ -4,7 +4,7 @@ import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 // import { Router } from 'express';
 import { Router } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   selector: 'app-register',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
     RouterLink,
@@ -31,6 +32,14 @@ export class RegisterComponent implements OnInit{
   router = inject(Router);
   confirmPasswordHide: boolean = true;
   passwordHide: boolean = true;
+
+
+  // ^ Creamos el
+  register() {
+
+  }
+
+
 
   // ^
   ngOnInit(): void {
