@@ -24,10 +24,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
 
+
   // ?Metodo para iniciar sesión
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http
-    .post<AuthResponse>(`${this.apiUrl}account/login`, data)
+    .post<AuthResponse>(`${this.apiUrl}Account/login`, data)
     .pipe(
       map((response) => {
 
