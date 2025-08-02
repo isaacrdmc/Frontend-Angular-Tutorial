@@ -37,18 +37,24 @@
 
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Contraseña</mat-label>
-      <input matInput type="password" placeholder="Contraseña">
+      <input matInput type="{{passwordHide ? 'password' : 'text'}}" placeholder="Contraseña">
       <mat-icon matPrefix>lock</mat-icon>
-      <mat-icon matSuffix>{{confirmPasswordHide ? 'visibility_of' :'visibility'}}</mat-icon>
+      <mat-icon (click)="passwordHide = !passwordHide" matSuffix>{{passwordHide ? 'visibility_of'
+        :'visibility'}}</mat-icon>
     </mat-form-field>
+
 
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Confirma la contraseña</mat-label>
-      <input matInput type="password" placeholder="Conirm contraseña">
+
+      <input matInput type="{{confirmPasswordHide ? 'password' : 'text'}}" placeholder="Confirmar contraseña">
       <mat-icon matPrefix>lock</mat-icon>
+      <mat-icon (click)="confirmPasswordHide = !confirmPasswordHide" matSuffix>{{confirmPasswordHide ? 'visibility_of'
+        :'visibility'}}</mat-icon>
     </mat-form-field>
 
-    <button type="submit" class="w-full border rounder-md border-slate-200 rounded-md disabled:bg-purple-400 py-2 px-3 bg-purple-700 text-white font-bold">
+    <button type="submit"
+      class="w-full border rounder-md border-slate-200 rounded-md disabled:bg-purple-400 py-2 px-3 bg-purple-700 text-white font-bold">
       Aceptar
     </button>
 

@@ -29,7 +29,8 @@ export class RegisterComponent implements OnInit{
   fb = inject(FormBuilder);
   registerForm!:FormGroup;
   router = inject(Router);
-  confirmPasswordHide: boolean | undefined;
+  confirmPasswordHide: boolean = true;
+  passwordHide: boolean = true;
 
   // ^
   ngOnInit(): void {
