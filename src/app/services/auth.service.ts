@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { AuthResponse } from '../interfaces/auth-response';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
+import { RegisterRequest } from '../interfaces/register-request';
 
 
 // * Hacemos el servicio injectable para que pueda ser utilizado en otros componentes
@@ -43,6 +44,29 @@ export class AuthService {
         })
       );
   }
+
+
+
+
+  register(data: RegisterRequest): Observable<AuthResponse> {
+    return this.http
+    .post<AuthResponse>(`${this.apiUrl}Account/login`, data)
+    .pipe(
+      map((response) => {
+
+          // * Si la respuesta es exitosa, guardamos el token en 'localStorage'
+          if (response.isSuccess) {
+            localStorage.setItem(this.tokenKey, response.token);
+          }
+
+          // * Eetornamos la respuesta del servidor
+          return response;
+        })
+      );
+  }
+
+
+
 
 
   // ? Metodo para decodificar el token y obtener los detalles del usuario

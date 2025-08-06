@@ -4,11 +4,11 @@
 
 
 
-    <!-- @for(error of errors; track error){
+    @for(error of errors; track error){
     <div class="bg-red-100 border mb-2 flex flex-col gap-2 border-red-400 text-red-400 px4 py4 rounded-md relative">
-      <div class="text-xs p-2">{{error.description}}</div>
+      <div class="text-xs p-2">{{errors}}</div>
     </div>
-    } -->
+    }
 
 
     <!-- *  -->
@@ -47,6 +47,8 @@
       <mat-icon matPrefix>groups</mat-icon>
     </mat-form-field>
 
+
+
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Contraseña</mat-label>
       <input formControlName="password" matInput type="{{passwordHide ? 'password' : 'text'}}" placeholder="Contraseña">
@@ -64,10 +66,22 @@
         :'visibility'}}</mat-icon>
     </mat-form-field>
 
-    <button type="submit"
-      class="w-full border rounder-md border-slate-200 rounded-md disabled:bg-purple-400 py-2 px-3 bg-purple-700 text-white font-bold">
+
+    <!-- ^ Verificamos que sean la misma contraseña: -->
+    <span class="text-red-600"
+      *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.dirty && registerForm.get('confirmPassword')?.touched">
+      Passwords do not match.
+    </span>
+
+    <button type="submit" [disabled]="!registerForm.valid" class="w-full border-collapse text-white rounded-md border-slate-200 disabled:bg-purple-400 py-2
+    px-3 bg-purple-700">
       Aceptar
     </button>
+
+    <!-- <button type="submit"
+      class="w-full border rounder-md border-slate-200 rounded-md disabled:bg-purple-400 py-2 px-3 bg-purple-700 text-white font-bold">
+      Aceptar
+    </button> -->
 
 
     <div class="my-4">

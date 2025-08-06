@@ -1,16 +1,22 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from './../../services/auth.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { M } from "../../../../node_modules/@angular/material/form-field.d-CMA_QQ0R";
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 // import { Router } from 'express';
 import { Router } from '@angular/router';
 import { RoleService } from '../../services/role.service';
 import { Observable } from 'rxjs';
 import { Role } from '../../interfaces/role';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { response } from 'express';
+import { error } from 'console';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-register',
@@ -22,7 +28,8 @@ import { AsyncPipe } from '@angular/common';
     RouterLink,
     MatSelectModule,
     MatIconModule,
-    AsyncPipe
+    AsyncPipe,
+    NgIf
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -40,13 +47,37 @@ export class RegisterComponent implements OnInit{
 
   // * Inyectamos el servicio de los roles
   roleService=inject(RoleService);
+  AuthService=inject(AuthService);
+  MatSnackBar=inject(MatSnackBar);
   roles$!:Observable<Role[]>;
+  errors!: ValidationErrors[];
 
 
 
   // ^ Creamos el
   register() {
+    this.AuthService.register(this.registerForm.value).subscribe({
+      next:(response) => {
+        console.log(response);
 
+        // *
+        this.MatSnackBar.open(response.message, 'Cerrar', {
+          duration: 5000,
+          horizontalPosition: 'center',
+        });
+        this.router.navigate(['/login']);
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err!.status === 400) {
+          this.errors = err!.error;
+          this.MatSnackBar.open('Validations error', 'Close', {
+            duration: 5000,
+            horizontalPosition: 'center',
+          });
+        }
+      },
+      complete: () => console.log('Register success'),
+    });
   }
 
 
@@ -59,11 +90,29 @@ export class RegisterComponent implements OnInit{
       fullName: ['', [Validators.required]],
       roles: [],
       confirmPassword: ['', [Validators.required]],
-    })
+      },
+      {
+        validator: this.passwordMatchValidations,
+      }
+    );
 
     // ? Obtenemos los roles desde el servicio
     this.roles$ = this.roleService.getRoles();
 
+  }
+
+
+  // ^
+  // ^ Validamos que las contraseñas coincidan
+  private passwordMatchValidations ( control: AbstractControl ): { [key: string]: boolean } | null {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+
+    if (password !== confirmPassword) {
+      return { passwordMismatch: true };
+    }
+
+    return null;
   }
 
 
