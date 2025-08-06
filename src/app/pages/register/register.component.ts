@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit{
   confirmPasswordHide: boolean = true;
   passwordHide: boolean = true;
 
+  // * Inyectamos el servicio de los roles
   roleService=inject(RoleService);
   roles$!:Observable<Role[]>;
 
@@ -60,7 +61,7 @@ export class RegisterComponent implements OnInit{
       confirmPassword: ['', [Validators.required]],
     })
 
-    // ?
+    // ? Obtenemos los roles desde el servicio
     this.roles$ = this.roleService.getRoles();
 
   }
