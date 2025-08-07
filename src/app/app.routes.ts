@@ -6,6 +6,7 @@ import { AcroutComponent } from './pages/acrout/acrout.component';
 import { authGuard } from './guards/auth.guard';
 import { UsersComponent } from './pages/users/users.component';
 import { roleGuard } from './guards/role.guard';
+import { RoleComponent } from './pages/role/role.component';
 
 
 
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path:'register', component:RegisterComponent},
   { path: 'acrout/:id', component:AcroutComponent, canActivate: [authGuard] },
   { path: 'users', component: UsersComponent, canActivate: [roleGuard], data: { roles: ['Admin'], }, },
+  { path: 'roles', component: RoleComponent, canActivate: [roleGuard], data: { roles: ['Admin'], }, },
 
 ];
