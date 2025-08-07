@@ -4,6 +4,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AcroutComponent } from './pages/acrout/acrout.component';
 import { authGuard } from './guards/auth.guard';
+import { UsersComponent } from './pages/users/users.component';
+import { roleGuard } from './guards/role.guard';
+
 
 
 // ? Definimos las rutas de la aplicación
@@ -12,5 +15,6 @@ export const routes: Routes = [
   { path:'login', component:LoginComponent },
   { path:'register', component:RegisterComponent},
   { path: 'acrout/:id', component:AcroutComponent, canActivate: [authGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [roleGuard], data: { roles: ['Admin'], }, },
 
 ];

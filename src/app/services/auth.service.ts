@@ -123,6 +123,21 @@ export class AuthService {
     // * Eliminamos el token del 'localStorage'
     localStorage.removeItem(this.tokenKey);
   };
+  
+  getRoles = (): string[] | null => {
+    const token = this.getToken();
+    if (!token) return null;
+
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.role || null;
+  };
+
+
+  // ? Metodo para obtener todos los usuatios
+  getAll = (): Observable<UserDetail[]> =>
+    this.http.get<UserDetail[]>(`${this.apiUrl}account`);
+
+
 
   // ? Metodo para obtener el token del 'localStorage'
   getToken = (): string | null =>
