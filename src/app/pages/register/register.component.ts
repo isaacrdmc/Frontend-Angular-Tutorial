@@ -18,6 +18,7 @@ import { error } from 'console';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
+
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -36,50 +37,51 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 
 // ^
-export class RegisterComponent implements OnInit{
+export class RegisterComponent implements OnInit {
 
   // *
   fb = inject(FormBuilder);
-  registerForm!:FormGroup;
+  registerForm!: FormGroup;
   router = inject(Router);
   confirmPasswordHide: boolean = true;
   passwordHide: boolean = true;
 
   // * Inyectamos el servicio de los roles
-  roleService=inject(RoleService);
-  AuthService=inject(AuthService);
-  MatSnackBar=inject(MatSnackBar);
-  roles$!:Observable<Role[]>;
-  errors!: ValidationErrors[];
+  roleService = inject(RoleService);
+  AuthService = inject(AuthService);
+  MatSnackBar = inject(MatSnackBar);
+  roles$!: Observable<Role[]>;
+  errors!: ValidationErrors;
 
+
+  parsedErrors: { key: string, messages: string[] }[] = [];
 
 
   // ^ Creamos el
-  register() {
-    this.AuthService.register(this.registerForm.value).subscribe({
-      next:(response) => {
-        console.log(response);
+register(): void {
+    if (this.registerForm.invalid) return;
 
-        // *
-        this.MatSnackBar.open(response.message, 'Cerrar', {
-          duration: 5000,
-          horizontalPosition: 'center',
-        });
+    const formValue = this.registerForm.value;
+
+    const registerPayload = {
+      emailAddress: formValue.email,
+      password: formValue.password,
+      fullName: formValue.fullName,
+      roles: formValue.roles
+    };
+
+    this.AuthService.register(registerPayload).subscribe({
+      next: () => {
         this.router.navigate(['/login']);
       },
-      error: (err: HttpErrorResponse) => {
-        if (err!.status === 400) {
-          this.errors = err!.error;
-          this.MatSnackBar.open('Validations error', 'Close', {
-            duration: 5000,
-            horizontalPosition: 'center',
-          });
-        }
-      },
-      complete: () => console.log('Register success'),
+      error: (err) => {
+        this.parsedErrors = Object.entries(err.error).map(([key, messages]) => ({
+          key,
+          messages: Array.isArray(messages) ? messages : [messages] // convierte en array si no lo es
+        }));
+      }
     });
   }
-
 
 
   // ^
@@ -90,7 +92,7 @@ export class RegisterComponent implements OnInit{
       fullName: ['', [Validators.required]],
       roles: [],
       confirmPassword: ['', [Validators.required]],
-      },
+    },
       {
         validator: this.passwordMatchValidations,
       }
@@ -104,7 +106,7 @@ export class RegisterComponent implements OnInit{
 
   // ^
   // ^ Validamos que las contraseñas coincidan
-  private passwordMatchValidations ( control: AbstractControl ): { [key: string]: boolean } | null {
+  private passwordMatchValidations(control: AbstractControl): { [key: string]: boolean } | null {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
 

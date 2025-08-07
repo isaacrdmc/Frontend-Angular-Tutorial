@@ -6,6 +6,7 @@ import { AuthResponse } from '../interfaces/auth-response';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { RegisterRequest } from '../interfaces/register-request';
+import { UserDetail } from '../interfaces/user-detail';
 
 
 // * Hacemos el servicio injectable para que pueda ser utilizado en otros componentes
@@ -50,7 +51,7 @@ export class AuthService {
 
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http
-    .post<AuthResponse>(`${this.apiUrl}Account/login`, data)
+    .post<AuthResponse>(`${this.apiUrl}Account/register`, data)
     .pipe(
       map((response) => {
 
@@ -65,6 +66,10 @@ export class AuthService {
       );
   }
 
+
+  // TODO
+  getDetail = (): Observable<UserDetail> =>
+    this.http.get<UserDetail>(`${this.apiUrl}account/detail`);
 
 
 
@@ -120,7 +125,7 @@ export class AuthService {
   };
 
   // ? Metodo para obtener el token del 'localStorage'
-  private getToken = (): string | null =>
+  getToken = (): string | null =>
     localStorage.getItem(this.tokenKey) || '';
 }
 
