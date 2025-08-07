@@ -3,11 +3,11 @@
   <hr class="my-3">
   <div class="flex w-full gap-3">
     <div class="w-1/2">
-      <!-- <app-role-form [errorMessage]="errorMessage" [role]="role" (addRole)="createRole($event)" /> -->
+      <app-role-form [errorMessage]="errorMessage" [role]="role" (addRole)="createRole($event)" />
       <div class="p-5 my-3">
         <h1 class="font-medium">Assign Role To User</h1>
-        <div class="flex gap-5">
-          <!-- <mat-form-field class="mt-3">
+        <div class="flex gap-5"> 
+          <mat-form-field class="mt-3">
             <mat-label>User</mat-label>
   
             <mat-select [(value)]="selectedUser">
@@ -17,8 +17,8 @@
               </mat-option>
               }
             </mat-select>
-          </mat-form-field> -->
-          <!-- <mat-form-field class="mt-3">
+          </mat-form-field>
+          <mat-form-field class="mt-3">
             <mat-label>Role</mat-label>
   
             <mat-select [(value)]="selectedRole">
@@ -28,7 +28,7 @@
               </mat-option>
               }
             </mat-select>
-          </mat-form-field> -->
+          </mat-form-field>
         </div>
   
         <button [disabled]="!selectedUser || !selectedRole" class="bg-purple-600 disabled:bg-blue-300 text-white rounded-md
@@ -42,9 +42,9 @@
   
   
   
-    <!-- <div class="w-full shadow-sm">
+    <div class="w-full shadow-sm">
       <app-role-list [roles]="roles$ | async" (deleteRole)="deleteRole($event)" />
-    </div> -->
+    </div>
   </div>
 
 </div>

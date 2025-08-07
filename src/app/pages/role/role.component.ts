@@ -7,10 +7,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../services/auth.service';
 import { RoleCreateRequest } from '../../interfaces/role-create-request';
+import { RoleListComponent } from '../../components/role-list/role-list.component';
+import { RoleFormComponent } from "../../components/role-form/role-form.component";
+
 
 @Component({
   selector: 'app-role',
-  imports: [],
+  standalone: true,
+  imports: [
+    RoleListComponent,
+    AsyncPipe,
+    MatSelectModule,
+    MatInputModule,
+    MatSnackBarModule,
+    RoleFormComponent
+],
   templateUrl: './role.component.html',
   styleUrl: './role.component.css'
 })
@@ -25,6 +36,9 @@ export class RoleComponent {
   selectedRole: string = '';
 
   snackBar = inject(MatSnackBar);
+
+
+  // ^ Para le CRUD de los roles:
 
   createRole(role: RoleCreateRequest) {
     this.roleService.createRole(role).subscribe({
@@ -58,7 +72,7 @@ export class RoleComponent {
     });
   }
 
-  assignRole() {
+  assignRole() { 
     this.roleService
       .assignRole(this.selectedUser, this.selectedRole)
       .subscribe({

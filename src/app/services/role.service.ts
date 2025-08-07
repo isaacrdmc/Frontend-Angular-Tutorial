@@ -18,6 +18,9 @@ export class RoleService {
 
   constructor(private http:HttpClient) { }
 
+
+  // ^ Funciones para el CRUD de los roles:
+  
   getRoles = () : Observable<Role[]> => {
     return this.http.get<Role[]>(`${this.apiUrl}roles`)
   }
